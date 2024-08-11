@@ -57,10 +57,12 @@ export class MissionService {
     }
 
     // 将附件路径添加到任务中
-    async addAttachment(missionid: string, filePath: string) {
-        await this.missionModel.findByIdAndUpdate(missionid, {
-            $push: { attachments: filePath },
-        });
+    async addFilesToMission(missionid: string, fileUrls: string[]): Promise<void> {
+        await this.missionModel.findOneAndUpdate(
+            { id: missionid }, // 使用自定义的 id 字段进行查找
+            { $push: { attachments: { $each: fileUrls } } },
+            { new: true } // 返回更新后的文档
+        );
     }
 
 }

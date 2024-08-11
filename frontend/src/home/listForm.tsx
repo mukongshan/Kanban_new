@@ -87,6 +87,7 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
     const handleChooseMission = (mission: Mission) => {
         setCurrentItem(mission);
         console.log('Choosing Mission:', mission.name);
+        setAttachments(mission.attachments || []);  // 每次选择任务时更新附件列表
         setModalType('chooseMission');
 
         // navigate(`/${username}/home/project/${projectid}`);
@@ -154,7 +155,9 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
     };
 
     // 当文件上传成功后，这个回调函数会被调用
-    const handleFileUpload = (filePath: string) => {
+    const handleFileUpload = (file: File) => {
+
+        const filePath = URL.createObjectURL(file);
 
         console.log('File uploaded:', filePath);
         setAttachments(prevAttachments => Array.isArray(prevAttachments) ? [...prevAttachments, filePath] : [filePath]);
@@ -280,24 +283,29 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                             <button type='button' onClick={handleDetailModal}>返回</button>
                             <FileUpload missionid={currentItem.id} onFileUpload={handleFileUpload} />
 
-                            <h3>Attachments</h3>
+                            <h3>附件列表：</h3>
                             <ul>
                                 {(attachments && attachments.length > 0) ? (
-                                    attachments.map((filePath, index) => (
-                                        <li key={index}>
-                                            <a href={filePath} target="_blank" rel="noopener noreferrer">
-                                                {filePath}
-                                            </a>
-                                        </li>
-                                    ))
+                                    attachments.map((filePath, index) => {
+                                        // 从 filePath 中提取文件名
+                                        const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+                                        return (
+                                            <li key={index}>
+                                                <a href={filePath} target="_blank" rel="noopener noreferrer">
+                                                    {fileName}
+                                                </a>
+                                            </li>
+                                        );
+                                    })
                                 ) : (
-                                    <li>No attachments available</li>
+                                    <li>暂无附件</li>
                                 )}
                             </ul>
                         </div>
                     ) : null}
                 </>
             )}
+
 
         </>
     );
