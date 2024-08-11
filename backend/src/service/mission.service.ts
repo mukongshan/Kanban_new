@@ -56,8 +56,6 @@ export class MissionService {
         return { message: 'Mission deleted' };
     }
 
-<<<<<<< HEAD
-=======
     // 将附件路径添加到任务中
     async addAttachment(missionid: string, filePath: string) {
         await this.missionModel.findByIdAndUpdate(missionid, {
@@ -65,5 +63,4 @@ export class MissionService {
         });
     }
 
->>>>>>> HEAD@{1}
 }

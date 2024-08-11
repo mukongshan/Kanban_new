@@ -7,13 +7,13 @@
 }
 
 @font-face {
-    font-family: 'xia_ri_shi_ge_ti';
-    src: url('../../../res/font/字魂漫画家.ttf') format('truetype');
+    font-family: 'zi_hun_man_hua_jia';
+    src: url('../../public/font/字魂漫画家.ttf') format('truetype');
     font-weight: 700;
 }
 
 body {
-    font-family: 'xia_ri_shi_ge_ti', sans-serif;
+    font-family: 'zi_hun_man_hua_jia', sans-serif;
     font-size: 1.2em;
 }
 
@@ -179,7 +179,7 @@ body {
 }
 
 .board-form hr {
-    width: 100%;
+    width: 95%;
     border: 1px solid #9c8f7e;
     margin: 10px 0;
     border-radius: 100px;
@@ -225,6 +225,13 @@ body {
     vertical-align: top;
     /* 使它们顶部对齐 */
     position: relative;
+    max-height: 300px;
+    /* 设置最大高度，超过这个高度时出现滚动条 */
+    overflow-y: auto;
+    /* 允许竖直方向滚动 */
+    margin-top: 10px;
+    padding-right: 10px;
+    /* 给滚动条留出空间 */
 }
 
 .list-form .btn-add {
@@ -239,16 +246,25 @@ body {
     float: right;
 }
 
-.list-form .btn-set {
-    padding: 5px 6px;
+.list-form .divset {
+    padding: 3px 3px;
     background-color: #eae5cd;
     color: rgb(27, 27, 81);
     border: 2px solid #929da9;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-bottom: 0px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
 }
-
 
 
 .list-form .listset {
@@ -262,13 +278,13 @@ body {
     /* 使用绝对定位 */
     right: 12px;
     /* 距离右边10px */
-    top: 15px;
+    top: 30px;
 }
 
+.list-form .divset:hover,
 .list-form .listset:hover {
     background-color: #c0c7ce;
 }
-
 
 .mission-div {
     /* border: 1.5px solid #a38eb0; */
@@ -276,7 +292,7 @@ body {
     padding: 6px 10px;
     margin: 6px;
     margin-top: 10px;
-    width: 90%;
+    width: 85%;
     text-align: left;
     margin-right: 12px;
     overflow-wrap: break-word;
@@ -288,4 +304,22 @@ body {
 
 .mission-div:hover {
     background-color: #c0c7ce;
+}
+
+
+
+/* 评论区域的样式 */
+.comment-form {
+    max-height: 400px;
+    /* 设置最大高度，超过这个高度时出现滚动条 */
+    overflow-y: auto;
+    /* 允许竖直方向滚动 */
+    margin-top: 10px;
+    padding-right: 10px;
+    /* 给滚动条留出空间 */
+}
+
+.comment-item {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
 }

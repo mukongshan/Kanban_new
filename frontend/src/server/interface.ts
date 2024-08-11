@@ -8,6 +8,14 @@ export interface Mission {
     id: string;
     name: string;
     comments: Comment[];
+    attachments: string[];
+}
+
+export interface Comment {
+    id: string;
+    username: string;
+    time: string;
+    content: string;
 }
 
 export interface List {
@@ -25,6 +33,11 @@ export interface Project {
 export interface Info {
     username?: string;
     projectid?: string;
+    list?: List;
     listid?: string;
+    mission?: Mission;
     missionid?: string;
+    comment?: Comment;
+
+    children?: React.ReactNode; // 添加 children 属性
 }

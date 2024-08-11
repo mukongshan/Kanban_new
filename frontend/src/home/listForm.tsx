@@ -3,10 +3,8 @@ import './style.css';
 import { Info, List, Mission } from '../server/interface';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-<<<<<<< HEAD
-=======
+import CommentForm from './commentForm';
 import FileUpload from './fileUpload';
->>>>>>> HEAD@{1}
 
 
 const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
@@ -15,10 +13,7 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
     const [modalType, setModalType] = useState('');
     const [currentItem, setCurrentItem] = useState<Mission>();
     const [newItem, setNewItem] = useState('');
-<<<<<<< HEAD
-=======
     const [attachments, setAttachments] = useState<string[]>([]);
->>>>>>> HEAD@{1}
 
     const getMissions = useCallback(async (list: List) => {
         try {
@@ -53,13 +48,10 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
 
         if (list != undefined) {
             fetchMissionsForList(list);
-<<<<<<< HEAD
-=======
             const currentMission = missions.find(m => m.id === currentItem?.id);
             if (currentMission) {
                 setAttachments(currentMission.attachments);
             }
->>>>>>> HEAD@{1}
         }
 
     }, [modalType, list]);
@@ -78,11 +70,7 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
         e.preventDefault();
         if (newItem.trim()) {
             console.log('Adding Mission:', newItem);
-<<<<<<< HEAD
-            const newMission: Mission = { id: uuidv4(), name: newItem, comments: [] }; // Generate a valid UUID
-=======
             const newMission: Mission = { id: uuidv4(), name: newItem, comments: [], attachments: [] }; // Generate a valid UUID
->>>>>>> HEAD@{1}
 
             try {
                 await axios.post(`http://localhost:7001/${username}/board/projects/${projectid}/lists/${list?.id}/missions_3`, newMission);
@@ -151,11 +139,6 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
     };
 
     //detail
-<<<<<<< HEAD
-    const handleDetailModal = async () => {
-        setModalType('detail');
-    }
-=======
     const handleDetailModal = () => {
         setModalType('detail');
     };
@@ -177,7 +160,6 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
         setAttachments(prevAttachments => Array.isArray(prevAttachments) ? [...prevAttachments, filePath] : [filePath]);
     };
 
->>>>>>> HEAD@{1}
 
     return (
         <>
@@ -192,8 +174,11 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                         <div className="missions">
                             {missions.map(mission => (
                                 <>
-                                    <div className='mission-div' key={mission.id} onClick={() => handleChooseMission(mission)}>{mission.name}</div>
-                                    <button type='button' className='btn-set' onClick={() => handleSetModal(mission)}>···</button>
+                                    <div className='mission-div' key={mission.id} onClick={() => handleChooseMission(mission)}>{mission.name}
+                                        <div className='divset' onClick={(e) => {
+                                            e.stopPropagation(); handleSetModal(mission)
+                                        }}>··</div>
+                                    </div>
                                 </>
                             ))}
                         </div>
@@ -266,8 +251,6 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                     <button type='button' onClick={handleDetailModal}>详情</button>
                 </div>
             )}
-<<<<<<< HEAD
-=======
 
             {modalType === 'detail' && (
                 <div className="modal-form">
@@ -284,10 +267,9 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                 <div className="modal-form">
 
                     <br />
+                    <CommentForm username={username} projectid={projectid} listid={list?.id} mission={currentItem} />
+                    <button type='button' onClick={handleDetailModal}>返回</button>
 
-                    <button type='button' onClick={handleCloseModal}>关闭</button>
-                    <button type='button' onClick={handleCommentModal}>评论</button>
-                    <button type='button' onClick={handleAttachmentModal}>附件</button>
                 </div>
             )}
 
@@ -295,7 +277,7 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                 <>
                     {currentItem != undefined ? (
                         <div className="modal-form">
-                            <button type='button' onClick={handleCloseModal}>关闭</button>
+                            <button type='button' onClick={handleDetailModal}>返回</button>
                             <FileUpload missionid={currentItem.id} onFileUpload={handleFileUpload} />
 
                             <h3>Attachments</h3>
@@ -317,7 +299,6 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                 </>
             )}
 
->>>>>>> HEAD@{1}
         </>
     );
 };

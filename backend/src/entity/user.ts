@@ -1,7 +1,6 @@
-import { prop, index, modelOptions } from '@typegoose/typegoose';
+import { prop, index } from '@typegoose/typegoose';
 import { Project } from './project';
 
-@modelOptions({ schemaOptions: { _id: false } })
 @index({ username: 1 }, { unique: true })
 export class User {
     @prop()
