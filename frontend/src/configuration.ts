@@ -1,0 +1,44 @@
+import { Configuration, App } from '@midwayjs/core';
+import * as koa from '@midwayjs/koa';
+import * as validate from '@midwayjs/validate';
+import * as info from '@midwayjs/info';
+import { join } from 'path';
+// import { DefaultErrorFilter } from './filter/default.filter';
+// import { NotFoundFilter } from './filter/notfound.filter';
+import { ReportMiddleware } from './middleware/report.middleware';
+import * as typegoose from '@midwayjs/typegoose';
+import * as crossDomain from '@midwayjs/cross-domain';
+import { UserExistFilter } from './filter/userExist.filter';
+import { DefaultErrorFilter } from './filter/default.filter';
+import { NotFoundFilter } from './filter/notfound.filter';
+import * as koaStatic from 'koa-static';
+import * as path from 'path';
+import * as upload from '@midwayjs/upload';
+
+@Configuration({
+  imports: [
+    koa,
+    validate,
+    {
+      component: info,
+      enabledEnvironment: ['local'],
+    },
+    typegoose,
+    crossDomain,
+    upload,
+  ],
+  importConfigs: [join(__dirname, './config')],
+})
+export class MainConfiguration {
+  @App('koa')
+  app: koa.Application;
+
+  async onReady() {
+    // add middleware
+    this.app.useMiddleware([ReportMiddleware]);
+    // add filter
+    this.app.useFilter([UserExistFilter, NotFoundFilter, DefaultErrorFilter]);
+
+    this.app.use(koaStatic(path.join(__dirname, '../public')));// 提供静态文件服务，允许访问 /public 目录下的文件
+  }
+}

@@ -1,0 +1,102 @@
+.background-container {
+    position: relative;
+    /* 使 .login-form 的绝对定位相对于 .App */
+    height: 100vh;
+    width: 150vh;
+    background-color: rgb(136, 103, 209);
+
+    /* background-image: url("D:\\Code\\Web\\project\\Kanban\\frontend\\res\\img\\460270316421546372.png"); */
+    /* 替换为你的图片路径 */
+    /* background-size: 100% 100%; */
+    /* 使背景图片覆盖整个容器 */
+    /* background-position: center; */
+    /* 背景图片居中 */
+    /* background-repeat: no-repeat; */
+    /* 不重复背景图片 */
+    /* margin: 0; */
+    /* 确保没有默认的边距 */
+}
+
+@font-face {
+    font-family: 'xia_ri_shi_ge_ti';
+    src: url('../../../res/font/字魂漫画家.ttf') format('truetype');
+    font-weight: 700;
+}
+
+body {
+    font-family: 'xia_ri_shi_ge_ti', sans-serif;
+    font-size: 1.2em;
+}
+
+.login-form,
+.registe-form {
+    position: absolute;
+    top: 20%;
+    /* 调整为你希望的垂直位置 */
+    left: 50%;
+    transform: translate(-50%, 0);
+    /* 水平居中 */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    /* 控制表单的宽度 */
+}
+
+.login-form h1,
+.registe-form h1 {
+    margin-bottom: 20px;
+    text-align: center;
+
+}
+
+.login-form div,
+.registe-form div {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-form label,
+.registe-form label {
+    margin-right: 10px;
+    width: 70px;
+    text-align: right;
+    font-size: 1.3em;
+
+}
+
+.login-form input,
+.registe-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-form button,
+.registe-form button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-form button:hover,
+.registe-form button:hover {
+    background-color: #0056b3;
+}
+
+.login-form a,
+.registe-form a {
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    text-align: center;
+}

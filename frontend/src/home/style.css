@@ -1,0 +1,291 @@
+.background-container {
+    position: relative;
+    height: 100vh;
+    width: 150vh;
+    background-color: rgb(170, 180, 239);
+
+}
+
+@font-face {
+    font-family: 'xia_ri_shi_ge_ti';
+    src: url('../../../res/font/字魂漫画家.ttf') format('truetype');
+    font-weight: 700;
+}
+
+body {
+    font-family: 'xia_ri_shi_ge_ti', sans-serif;
+    font-size: 1.2em;
+}
+
+/* menu */
+.menu-form {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    /* 可以根据需要调整宽度 */
+    background-color: #f5f4ea;
+    /* 背景颜色可以根据需要调整 */
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+
+.menu-form h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.menu-form hr {
+    width: 100%;
+    border: 1.2px solid #9c8f7e;
+    margin: 10px 0;
+    border-radius: 100px;
+}
+
+.menu-form div {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.menu-form label {
+    margin-right: 10px;
+    width: 70px;
+    text-align: right;
+    font-size: 1.3em;
+
+}
+
+
+.menu-form button {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    background-color: #eae5cd;
+    color: rgb(27, 27, 81);
+    border: 2px solid #929da9;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.menu-form .btn-add {
+    width: 100%;
+}
+
+.menu-form .btn-list {
+    width: 80%;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-right: 12px;
+}
+
+.menu-form .btn-set {
+    background-color: #dbdbdb;
+    padding: 5px;
+}
+
+.menu-form button:hover {
+    background-color: #c0c7ce;
+    border-color: #929da9;
+}
+
+.menu-form button:active {
+    background-color: #a5abb1;
+}
+
+.menu-form button:focus {
+    border-color: #929da9;
+    outline: none;
+}
+
+
+/* modal */
+.modal-form {
+    position: absolute;
+    z-index: 1000;
+    top: 20%;
+    /* 调整为你希望的垂直位置 */
+    left: 50%;
+    transform: translate(-50%, 0);
+    /* 水平居中 */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    /* 控制表单的宽度 */
+
+    /* 使用 box-shadow 添加阴影 */
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+
+    /* 居中对齐 */
+    margin: 50px auto;
+
+}
+
+.modal-form input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-form button {
+    gap: 10px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #eae5cd;
+    color: rgb(27, 27, 81);
+    border: 2px solid #929da9;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+
+}
+
+.modal-form button:hover {
+    background-color: #c0c7ce;
+    border-color: #929da9;
+}
+
+.modal-form button:active {
+    background-color: #a5abb1;
+}
+
+.modal-form button:focus {
+    border-color: #929da9;
+    outline: none;
+}
+
+
+/* board */
+.board-form {
+    position: absolute;
+    top: -5%;
+    left: 20.5%;
+    padding: 20px;
+    border-radius: 8px;
+    width: 1130px;
+    margin: 30px auto;
+    /* display: flex; */
+    /* 设置为 Flexbox 布局 */
+    flex-wrap: wrap;
+    /* 如果宽度不够，表单会自动换行 */
+    gap: 20px;
+    /* 设置表单之间的间距 */
+}
+
+.board-form hr {
+    width: 100%;
+    border: 1px solid #9c8f7e;
+    margin: 10px 0;
+    border-radius: 100px;
+}
+
+
+.board-form button {
+    gap: 10px;
+    margin: 10px;
+    padding: 10px 15px;
+    background-color: #eae5cd;
+    color: rgb(27, 27, 81);
+    border: 2px solid #a38eb0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.board-form button:hover {
+    background-color: #c0c7ce;
+    border-color: #929da9;
+}
+
+.board-form button:active {
+    background-color: #a5abb1;
+}
+
+.board-form button:focus {
+    border-color: #929da9;
+    outline: none;
+}
+
+
+
+
+/* list */
+.list-form {
+    background-color: #f5f4ea;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+    /* 使它们顶部对齐 */
+    position: relative;
+}
+
+.list-form .btn-add {
+    margin-bottom: 10px;
+    margin-right: 50px;
+    padding: 5px 6px;
+    background-color: #eae5cd;
+    color: rgb(27, 27, 81);
+    border: 2px solid #929da9;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+.list-form .btn-set {
+    padding: 5px 6px;
+    background-color: #eae5cd;
+    color: rgb(27, 27, 81);
+    border: 2px solid #929da9;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+}
+
+
+
+.list-form .listset {
+    background-color: transparent;
+    border: 2px solid #a38eb0;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 2px 6px;
+    font-size: 18px;
+    position: absolute;
+    /* 使用绝对定位 */
+    right: 12px;
+    /* 距离右边10px */
+    top: 15px;
+}
+
+.list-form .listset:hover {
+    background-color: #c0c7ce;
+}
+
+
+.mission-div {
+    /* border: 1.5px solid #a38eb0; */
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin: 6px;
+    margin-top: 10px;
+    width: 90%;
+    text-align: left;
+    margin-right: 12px;
+    overflow-wrap: break-word;
+    /* 自动换行 */
+    word-break: break-word;
+    /* 强制长单词换行 */
+    transition: background-color 0.1s ease;
+}
+
+.mission-div:hover {
+    background-color: #c0c7ce;
+}
