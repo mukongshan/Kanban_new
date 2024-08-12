@@ -281,7 +281,13 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                     {currentItem != undefined ? (
                         <div className="modal-form">
                             <button type='button' onClick={handleDetailModal}>返回</button>
-                            <FileUpload missionid={currentItem.id} onFileUpload={handleFileUpload} />
+                            <FileUpload
+                                projectid={projectid ?? ''}
+                                listid={list?.id ?? ''}
+                                missionid={currentItem?.id ?? ''}
+                                onFileUpload={handleFileUpload}
+                            />
+
 
                             <h3>附件列表：</h3>
                             <ul>

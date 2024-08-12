@@ -12,23 +12,46 @@ export class ProjectService {
   @InjectEntityModel(User)
   userModel: ReturnModelType<typeof User>;
 
-  async getOneProject(projectid: string) {
-    const project = await this.projectModel.findOne({ projectid }).exec();
+  async getOneProject(id: string) {
+    const project = await this.projectModel.findOne({ id }).exec();
+    console.log('project:', project);
     return project;
   }
 
   async addProject(username: string, project: Project) {
-    const newProject = await this.projectModel.create({
-      owners: [username],
-      id: project.id,
-      name: project.name,
-      lists: project.lists,
-    });
-    await newProject.save();
+    try {
+      await this.projectModel.create({
+        owners: [username],
+        id: project.id,
+        name: project.name,
+        lists: project.lists,
+      });
+      const user = await this.userModel.findOne({ username }).exec();
+      user.projectids.push(project.id);
+      user.save();
+    } catch (error) {
+      throw new Error(`project失败: ${error.message}`);
+    }
+
+    console.log('add project success');
+    return;
+  }
+
+  async addExistingProject(username: string, projectid: string) {
+    try {
+      console.log('projectid:', projectid);
+      const user = await this.userModel.findOne({ username }).exec();
+      user.projectids.push(projectid);
+      user.save();
+    } catch (error) {
+      throw new Error(`existing失败: ${error.message}`);
+    }
+    return;
   }
 
   async renameProject(projectid: string, newName: string) {
-    const project = await this.projectModel.findOne({ projectid }).exec();
+    const id = projectid;
+    const project = await this.projectModel.findOne({ id }).exec();
     if (!project) {
       throw new Error('Project not found');
     }
@@ -39,7 +62,9 @@ export class ProjectService {
   }
 
   async deleteProject(username: string, projectid: string) {
-    await this.projectModel.deleteOne({ id: projectid });
+    const user = await this.userModel.findOne({ username }).exec();
+    user.projectids = user.projectids.filter((id) => id !== projectid);
+    user.save();
     return { message: 'Project deleted' };
   }
 

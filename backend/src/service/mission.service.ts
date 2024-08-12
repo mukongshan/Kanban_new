@@ -20,7 +20,8 @@ export class MissionService {
     userModel: ReturnModelType<typeof User>;
 
     async getMissions(username: string, projectid: string, listid: string) {
-        const project = await this.projectModel.findOne({ projectid }).exec();
+        const id = projectid;
+        const project = await this.projectModel.findOne({ id }).exec();
         const list = project.lists.find(list => list.id == listid);
         const missions = list.missions;
         console.log(missions);
@@ -28,14 +29,16 @@ export class MissionService {
     }
 
     async addMission(username: string, projectid: string, listid: string, mission: Mission) {
-        const project = await this.projectModel.findOne({ projectid }).exec();
+        const id = projectid;
+        const project = await this.projectModel.findOne({ id }).exec();
         const list = project.lists.find(list => list.id == listid);
         list.missions.push(mission);
         await project.save();
     }
 
     async renameMission(username: string, projectid: string, listid: string, missionid: string, newName: string) {
-        const project = await this.projectModel.findOne({ projectid }).exec();
+        const id = projectid;
+        const project = await this.projectModel.findOne({ id }).exec();
         const list = project.lists.find(list => list.id == listid);
         const mission = list.missions.find(mission => mission.id == missionid);
         mission.name = newName;
@@ -44,7 +47,8 @@ export class MissionService {
     }
 
     async deleteMission(username: string, projectid: string, listid: string, missionid: string) {
-        const project = await this.projectModel.findOne({ projectid }).exec();
+        const id = projectid;
+        const project = await this.projectModel.findOne({ id }).exec();
         const list = project.lists.find(list => list.id == listid);
         const missionIndex = list.missions.findIndex(mission => mission.id == missionid);
         list.missions.splice(missionIndex, 1); // 删除项目
@@ -53,17 +57,20 @@ export class MissionService {
         return { message: 'Mission deleted' };
     }
 
-    // 将附件路径添加到任务中
-    async addFilesToMission(missionid: string, fileUrls: string[]): Promise<void> {
-        await this.missionModel.findOneAndUpdate(
-            { id: missionid }, // 使用自定义的 id 字段进行查找
-            { $push: { attachments: { $each: fileUrls } } },
-            { new: true } // 返回更新后的文档
-        );
+
+    async addAttachmentToMission(projectid: string, listid: string, missionid: string, filePath: string) {
+        const project = await this.projectModel.findOne({ id: projectid }).exec();
+        const list = project.lists.find(list => list.id == listid);
+        const mission = list.missions.find(mission => mission.id == missionid);
+        mission.attachments.push(filePath);
+        project.save();
     }
 
-    // addFile(username: string, projectid: string, listid: string, missionid: string, filePath: string) {
-    //     throw new Error('Method not implemented.');
-    // }
+    async getAttachments(projectid: string, listid: string, missionid: string) {
+        const project = await this.projectModel.findOne({ id: projectid }).exec();
+        const list = project.lists.find(list => list.id == listid);
+        const mission = list.missions.find(mission => mission.id == missionid);
+        return mission.attachments;
+    }
 
 }

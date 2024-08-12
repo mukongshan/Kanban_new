@@ -1,12 +1,12 @@
-import { modelOptions, prop } from '@typegoose/typegoose';
+import { index, prop } from '@typegoose/typegoose';
 import List from './list';
 
-@modelOptions({ schemaOptions: { _id: false } })
+@index({ id: 1 }, { unique: true })
 export class Project {
-    @prop({ type: () => [String], default: [] })
-    public owners: string[];
     @prop()
     public id: string;
+    @prop({ type: () => [String], default: [] })
+    public owners: string[];
     @prop()
     public name: string;
     @prop({ type: () => [List], default: [] })

@@ -80,7 +80,7 @@ const CommentForm: React.FC<Info> = ({ username, projectid, listid, mission }) =
         if (newItem.trim() && username && listid) {
             const now = getTime();
             console.log('Adding comment:', newItem);
-            const newComment: Comment = { id: uuidv4(), content: newItem, username: username, time: now };
+            const newComment: Comment = { id: uuidv4(), username: username, content: newItem, time: now };
 
             try {
                 await axios.post(`http://localhost:7001/${username}/board/projects/${projectid}/lists/${listid}/missions/${mission?.id}/comments_4`, newComment);

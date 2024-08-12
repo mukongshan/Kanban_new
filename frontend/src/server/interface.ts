@@ -25,6 +25,7 @@ export interface List {
 }
 
 export interface Project {
+    owners: string[];
     id: string;
     name: string;
     lists: List[];

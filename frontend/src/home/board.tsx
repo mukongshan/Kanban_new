@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import './style.css';
-import { Info, List, Mission, Project } from '../server/interface';
+import { Info, List, Project } from '../server/interface';
 // import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React from 'react';
@@ -20,11 +20,11 @@ const Board: React.FC<Info> = ({ username, projectid }) => {
         if (username && projectid) {
             try {
                 const response = await axios.get(`http://localhost:7001/${username}/home/projects_1/${projectid}`);
-                // console.log('Fetched project:', response.data.data);
-                if (response.data.success) {
+                console.log('Fetched projectData:', response.data);
+                if (response.data.success && response.data.data) {
                     const projectData = response.data.data as Project;
                     setProject(projectData);
-                    // console.log(project)
+                    console.log('get', project);
                 } else {
                     console.error('Failed to fetch project:', response.data.message);
                 }
@@ -91,12 +91,6 @@ const Board: React.FC<Info> = ({ username, projectid }) => {
         }
     };
 
-    //choose
-    const handleChooseList = (listid: string) => {
-        console.log('Choosing list:', listid);
-        // navigate(`/${username}/home/project/${projectid}`);
-        // Perform project-specific actions here
-    };
 
     //set
     const handleSetModal = (id: string) => {

@@ -14,7 +14,6 @@ const Home: React.FC = () => {
     if (matchProject) {
         username = matchProject.params.username;
         projectid = matchProject.params.projectid;
-        console.log('Match project:', username, projectid);
     } else if (matchHome) {
         username = matchHome.params.username;
     }

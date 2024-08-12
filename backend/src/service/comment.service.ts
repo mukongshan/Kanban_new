@@ -23,41 +23,40 @@ export class CommentService {
     userModel: ReturnModelType<typeof User>;
 
     async getComments(username: string, projectid: string, listid: string, missionid: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const mission = await this.findMission(user, projectid, listid, missionid);
+        const project = await this.projectModel.findOne({ id: projectid }).exec();
+        const mission = await this.findMission(project, listid, missionid);
         const comments = mission.comments;
         console.log(comments);
         return comments;
     }
 
     async addComment(username: string, projectid: string, listid: string, missionid: string, comment: Comment) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const mission = await this.findMission(user, projectid, listid, missionid);
+        const project = await this.projectModel.findOne({ id: projectid }).exec();
+        const mission = await this.findMission(project, listid, missionid);
         mission.comments.push(comment);
-        await user.save();
+        await project.save();
     }
 
     async renameComment(username: string, projectid: string, listid: string, missionid: string, commentid: string, newName: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const mission = await this.findMission(user, projectid, listid, missionid);
+        const project = await this.projectModel.findOne({ id: projectid }).exec();
+        const mission = await this.findMission(project, listid, missionid);
         const comment = mission.comments.find(comment => comment.id == commentid)
         comment.content = newName;
-        await user.save();
+        await project.save();
         return mission;
     }
 
     async deleteComment(username: string, projectid: string, listid: string, missionid: string, commentid: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const mission = await this.findMission(user, projectid, listid, missionid);
+        const project = await this.projectModel.findOne({ id: projectid }).exec();
+        const mission = await this.findMission(project, listid, missionid);
         const commentIndex = mission.comments.findIndex(comment => comment.id == commentid);
         mission.comments.splice(commentIndex, 1); // 删除项目
         console.log('Delete comment:', commentid);
-        await user.save();
+        await project.save();
         return { message: 'comment deleted' };
     }
 
-    async findMission(user: User, projectid: string, listid: string, missionid: string): Promise<Mission> {
-        const project = await this.projectModel.findOne({ projectid }).exec();
+    async findMission(project: Project, listid: string, missionid: string): Promise<Mission> {
         const list = project.lists.find(list => list.id == listid);
         const mission = list.missions.find(mission => mission.id == missionid);
         return mission

@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
         try {
             const response = await axios.post
-                ('http://localhost:7001/ui/login', { username, password });
+                ('http://localhost:7001/user/login', { username, password });
 
             if (response.data.success == false) {
                 setError('用户名或密码错误');

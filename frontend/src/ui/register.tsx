@@ -25,7 +25,7 @@ const Register: React.FC = () => {
         try {
             console.log('注册前');
             const response = await axios.post
-                ('http://localhost:7001/ui/register', { username, email, password });
+                ('http://localhost:7001/user/register', { username, email, password });
             console.log('注册后');
             console.log(response.data);
             console.log(response.status);
