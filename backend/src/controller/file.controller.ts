@@ -20,15 +20,14 @@ export class FileController {
       console.log('开始上传...');
 
       // 定义保存文件的目标目录
-      const uploadDir = path.join(__dirname, '../uploads/');
+      const uploadDir = path.join(__dirname, '../../uploads');
 
       // 确保目录存在
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
 
-      const files_1 = this.ctx.files
-      console.log('上传文件:', files_1);
+      console.log('上传文件:', this.ctx.files);
       if (!files || files.length === 0) {
         throw new Error('No files were uploaded');
       }
