@@ -22,7 +22,14 @@ const FileUpload: React.FC<{ missionid: string, onFileUpload: (file: File) => vo
       if (fileInput && fileInput.files && fileInput.files[0]) {
         const formData = new FormData();
         formData.append('file', fileInput.files[0]);
-
+        for (let [key, value] of formData.entries()) {
+          if (value instanceof File) {
+            console.log(`${key}:: ${value.name}, Size: ${value.size}, Type: ${value.type}`);
+          } else {
+            console.log(`${key}: ${value}`);
+          }
+        }
+        console.log('form data:', formData);
         // 使用 fetch API 上传文件
         const response = await fetch(`http://localhost:7001/files/upload/${missionid}`, {
           method: 'POST',
@@ -33,6 +40,7 @@ const FileUpload: React.FC<{ missionid: string, onFileUpload: (file: File) => vo
           const result = await response.json();
           setUploadStatus('File uploaded successfully');
           onFileUpload(fileInput.files[0]);
+          console.log('File uploaded result:', result);
         } else {
           setUploadStatus('Upload failed');
         }
