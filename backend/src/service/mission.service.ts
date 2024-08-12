@@ -9,6 +9,7 @@ import Mission from "../entity/mission";
 @Provide()
 export class MissionService {
 
+
     @InjectEntityModel(Mission)
     missionModel: ReturnModelType<typeof Mission>;
     @InjectEntityModel(List)
@@ -19,8 +20,7 @@ export class MissionService {
     userModel: ReturnModelType<typeof User>;
 
     async getMissions(username: string, projectid: string, listid: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const project = user.projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const list = project.lists.find(list => list.id == listid);
         const missions = list.missions;
         console.log(missions);
@@ -28,31 +28,28 @@ export class MissionService {
     }
 
     async addMission(username: string, projectid: string, listid: string, mission: Mission) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const project = user.projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const list = project.lists.find(list => list.id == listid);
         list.missions.push(mission);
-        await user.save();
+        await project.save();
     }
 
     async renameMission(username: string, projectid: string, listid: string, missionid: string, newName: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const project = user.projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const list = project.lists.find(list => list.id == listid);
         const mission = list.missions.find(mission => mission.id == missionid);
         mission.name = newName;
-        await user.save();
+        await project.save();
         return mission;
     }
 
     async deleteMission(username: string, projectid: string, listid: string, missionid: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const project = user.projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const list = project.lists.find(list => list.id == listid);
         const missionIndex = list.missions.findIndex(mission => mission.id == missionid);
         list.missions.splice(missionIndex, 1); // 删除项目
         console.log('Delete mission:', missionid);
-        await user.save();
+        await project.save();
         return { message: 'Mission deleted' };
     }
 
@@ -64,5 +61,9 @@ export class MissionService {
             { new: true } // 返回更新后的文档
         );
     }
+
+    // addFile(username: string, projectid: string, listid: string, missionid: string, filePath: string) {
+    //     throw new Error('Method not implemented.');
+    // }
 
 }

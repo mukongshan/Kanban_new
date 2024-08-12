@@ -3,6 +3,8 @@ import List from './list';
 
 @modelOptions({ schemaOptions: { _id: false } })
 export class Project {
+    @prop({ type: () => [String], default: [] })
+    public owners: string[];
     @prop()
     public id: string;
     @prop()

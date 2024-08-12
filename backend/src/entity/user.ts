@@ -1,5 +1,4 @@
 import { prop, index } from '@typegoose/typegoose';
-import { Project } from './project';
 
 @index({ username: 1 }, { unique: true })
 export class User {
@@ -12,8 +11,8 @@ export class User {
     @prop()
     public password?: string;
 
-    @prop({ type: () => [Project], default: [] })
-    public projects?: Project[];
+    @prop({ type: () => [String], default: [] })
+    public projectids?: string[];
 }
 
 export default User;

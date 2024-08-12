@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Inject } from '@midwayjs/core';
-import { UserService } from '../service/ui.service';
+import { UserService } from '../service/user.service';
 
-@Controller('/ui')
+@Controller('/user')
 export class UserController {
 
   @Inject()

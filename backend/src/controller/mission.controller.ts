@@ -6,7 +6,7 @@ import { MissionService } from '../service/mission.service';
 import Mission from '../entity/mission';
 
 @Controller(`/:username/board/projects/:projectid/lists/:listid/missions_3`)
-export class ProjectController {
+export class MissionController {
 
     @Inject()
     missionService: MissionService;
@@ -17,10 +17,10 @@ export class ProjectController {
     async getMissions(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string) {
         try {
             if (projectid) {
-                const misssions = await this.missionService.getMissions(username, projectid, listid);
-                this.ctx.body = { misssions };
+                const missions = await this.missionService.getMissions(username, projectid, listid);
+                this.ctx.body = { missions };
                 return {
-                    data: misssions,
+                    data: missions,
                     success: true,
                     message: 'get lists successfully',
                 };

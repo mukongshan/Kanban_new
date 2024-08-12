@@ -5,7 +5,7 @@ import { Inject } from '@midwayjs/core';
 import { ListService } from '../service/list.service';
 
 @Controller(`/:username/board/projects/:projectid/lists_2`)
-export class ProjectController {
+export class ListController {
 
     @Inject()
     listService: ListService;

@@ -12,41 +12,34 @@ export class ProjectService {
   @InjectEntityModel(User)
   userModel: ReturnModelType<typeof User>;
 
-  async getProjects(username: string) {
-    const user = await this.userModel.findOne({ username }).exec();
-    const _projects = user.projects;
-    return _projects;
-  }
-
-  async getOneProject(username: string, projectid: string) {
-    const user = await this.userModel.findOne({ username }).exec();
-    const project = user.projects.find(project => project.id == projectid);
+  async getOneProject(projectid: string) {
+    const project = await this.projectModel.findOne({ projectid }).exec();
     return project;
   }
 
   async addProject(username: string, project: Project) {
-    const user = await this.userModel.findOne({ username }).exec();
-    user.projects.push(project);
-    await user.save();
+    const newProject = await this.projectModel.create({
+      owners: [username],
+      id: project.id,
+      name: project.name,
+      lists: project.lists,
+    });
+    await newProject.save();
   }
 
-  async renameProject(username: string, projectid: string, newName: string) {
-    const user = await this.userModel.findOne({ username }).exec();
-    const project = user.projects.find(project => project.id == projectid);
+  async renameProject(projectid: string, newName: string) {
+    const project = await this.projectModel.findOne({ projectid }).exec();
     if (!project) {
       throw new Error('Project not found');
     }
 
     project.name = newName;
-    await user.save();
+    await project.save();
     return project;
   }
 
   async deleteProject(username: string, projectid: string) {
-    const user = await this.userModel.findOne({ username }).exec();
-    const projectIndex = user.projects.findIndex(project => project.id == projectid);
-    user.projects.splice(projectIndex, 1); // 删除项目
-    await user.save();
+    await this.projectModel.deleteOne({ id: projectid });
     return { message: 'Project deleted' };
   }
 

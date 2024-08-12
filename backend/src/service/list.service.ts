@@ -16,36 +16,30 @@ export class ListService {
     userModel: ReturnModelType<typeof User>;
 
     async getLists(username: string, projectid: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const projects = user.projects;
-        const project = projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const lists = project.lists;
         return lists;
     }
 
     async addList(username: string, projectid: string, list: List) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const projects = user.projects;
-        const project = projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         project.lists.push(list);
-        await user.save();
+        await project.save();
     }
 
     async renameList(username: string, projectid: string, listid: string, newName: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const project = user.projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const list = project.lists.find(list => list.id == listid);
         list.name = newName;
-        await user.save();
+        await project.save();
         return list;
     }
 
     async deleteList(username: string, projectid: string, listid: string) {
-        const user = await this.userModel.findOne({ username }).exec();
-        const project = user.projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const listIndex = project.lists.findIndex(list => list.id == listid);
         project.lists.splice(listIndex, 1); // 删除项目
-        await user.save();
+        await project.save();
         return { message: 'List deleted' };
     }
 

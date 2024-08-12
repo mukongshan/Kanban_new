@@ -1,8 +1,9 @@
 import { MidwayConfig } from '@midwayjs/core';
 import { User } from '../entity/user';
-import { uploadWhiteList } from '@midwayjs/upload';
+// import { uploadWhiteList } from '@midwayjs/upload';
 import { tmpdir } from 'os';
 import { join } from 'path';
+import Project from '../entity/project';
 
 export default {
   // use for cookie sign key, should change to your own and keep security
@@ -14,13 +15,12 @@ export default {
     dataSource: {
       default: {
         uri: 'mongodb://localhost:27017/userDataBase',
-        // options: {
-        //   user: '***********',
-        //   pass: '***********'
-        // },
-        // 关联实体
         entities: [User]
-      }
+      },
+      projectDB: {
+        uri: 'mongodb://localhost:27017/projectDataBase',
+        entities: [Project], // 配置另一数据库的实体
+      },
     }
   },
   upload: {
@@ -29,9 +29,9 @@ export default {
     // fileSize: string, 最大上传文件大小，默认为 10mb
     fileSize: '10mb',
     // whitelist: string[]，文件扩展名白名单
-    whitelist: uploadWhiteList.filter(ext => ext != '.txt'),
+    whitelist: ['.txt', '.jpg', '.png', '.gif', '.jpeg', '.pdf', '.docx', '.xlsx', '.ppt', '.pptx', '.zip', '.rar', '.7z', '.tar'],
     // tmpdir: string，上传的文件临时存储路径
-    tmpdir: join(tmpdir(), '../../uploads/tmp'),
+    tmpdir: join(tmpdir(), 'midway-upload-files'),
     // cleanTimeout: number，上传的文件在临时目录中多久之后自动删除，默认为 5 分钟
     cleanTimeout: 5 * 60 * 1000,
     // base64: boolean，设置原始body是否是base64格式，默认为false，一般用于腾讯云的兼容

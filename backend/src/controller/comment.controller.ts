@@ -14,18 +14,17 @@ export class CommentController {
     ctx: Context
 
     @Get('/')
-    async getMissions(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string) {
+    async getComments(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string) {
         try {
             if (projectid) {
-                const misssions = await this.commentService.getComments(username, projectid, listid, missionid);
-                this.ctx.body = { misssions };
+                const comments = await this.commentService.getComments(username, projectid, listid, missionid);
+                this.ctx.body = { comments };
                 return {
-                    data: misssions,
+                    data: comments,
                     success: true,
                     message: 'get Comment successfully',
                 };
-            }
-            else {
+            } else {
                 return {
                     success: false,
                     message: 'projectid is required',
@@ -40,7 +39,7 @@ export class CommentController {
     }
 
     @Post('/')
-    async addMission(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string, @Body() comment: Comment) {
+    async addComment(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string, @Body() comment: Comment) {
         try {
             await this.commentService.addComment(username, projectid, listid, missionid, comment);
             return {
@@ -55,13 +54,13 @@ export class CommentController {
         }
     }
 
-    @Put('/:missionid')
-    async renameMission(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string, @Param('commentid') commentid: string, @Body() newName: { name: string }) {
+    @Put('/:commentid')
+    async renameComment(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string, @Param('commentid') commentid: string, @Body() newName: { name: string }) {
         try {
             await this.commentService.renameComment(username, projectid, listid, missionid, commentid, newName.name);
             return {
                 success: true,
-                message: 'rename mission successfully',
+                message: 'rename comment successfully',
             };
         } catch (error) {
             return {
@@ -71,13 +70,13 @@ export class CommentController {
         }
     }
 
-    @Del('/:missionid')
-    async deleteMission(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string, @Param('commentid') commentid: string) {
+    @Del('/:commentid')
+    async deleteComment(@Param('username') username: string, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string, @Param('commentid') commentid: string) {
         try {
             await this.commentService.deleteComment(username, projectid, listid, missionid, commentid);
             return {
                 success: true,
-                message: 'del mission successfully',
+                message: 'del comment successfully',
             };
         } catch (error) {
             return {

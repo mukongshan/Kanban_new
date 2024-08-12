@@ -57,7 +57,7 @@ export class CommentService {
     }
 
     async findMission(user: User, projectid: string, listid: string, missionid: string): Promise<Mission> {
-        const project = user.projects.find(project => project.id == projectid);
+        const project = await this.projectModel.findOne({ projectid }).exec();
         const list = project.lists.find(list => list.id == listid);
         const mission = list.missions.find(mission => mission.id == missionid);
         return mission
