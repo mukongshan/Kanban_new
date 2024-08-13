@@ -295,9 +295,10 @@ const listForm: React.FC<Info> = ({ list, username, projectid, children }) => {
                                     attachments.map((filePath, index) => {
                                         // 从 filePath 中提取文件名
                                         const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+                                        console.log('filePath:', filePath, 'fileName:', fileName);
                                         return (
                                             <li key={index}>
-                                                <a href={filePath} target="_blank" rel="noopener noreferrer">
+                                                <a href={`http://localhost:7001/files/download/${fileName}`} download target='_blank'>
                                                     {fileName}
                                                 </a>
                                             </li>

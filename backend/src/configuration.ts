@@ -37,8 +37,8 @@ export class MainConfiguration {
     // add filter
     this.app.useFilter([UserExistFilter, NotFoundFilter, DefaultErrorFilter]);
 
-    this.app.use(koaStatic(path.join(__dirname, '../public'))); // 提供静态文件服务，允许访问 /public 目录下的文件
-
+    this.app.use(koaStatic(path.join(__dirname, '../uploads'))); // 提供静态文件服务，允许访问根目录下的uploads文件夹
+    console.log('Server is running at', path.join(__dirname, '../uploads'));
     // Ensure upload middleware is configured properly
     // Note: You might need to configure the upload options if required
   }
