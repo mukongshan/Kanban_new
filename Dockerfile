@@ -8,6 +8,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+COPY package*.json ./
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/src ./src
 COPY --from=build /app/bootstrap.js ./

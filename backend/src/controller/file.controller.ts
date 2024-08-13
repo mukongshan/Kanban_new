@@ -17,8 +17,9 @@ export class FileController {
   async upload(@Files() files: any[], @Fields() fields: any, @Param('projectid') projectid: string, @Param('listid') listid: string, @Param('missionid') missionid: string) {
     try {
       console.log('开始上传...');
+      console.log('Files:', files);
 
-      const uploadDir = path.join(__dirname, '../../uploads'); // 更改路径
+      const uploadDir = path.join(__dirname, '../../uploads');
       console.log('uploadDir:', uploadDir);
 
       if (!fs.existsSync(uploadDir)) {
@@ -29,7 +30,8 @@ export class FileController {
         throw new Error('No files were uploaded');
       }
 
-      const file = files[0]; // 因为只上传一个文件，所以只处理第一个文件
+      const file = files[0];
+      console.log('Uploaded file:', file);
 
       console.log('开始检查上传的文件...');
       const fileNamePattern = /^[\u4e00-\u9fa5a-zA-Z0-9_-]+\.[a-zA-Z0-9]+$/;
@@ -43,12 +45,19 @@ export class FileController {
 
       const targetPath = path.join(uploadDir, file.filename);
 
-      // 使用 fs.writeFileSync 写入文件数据
-      fs.writeFileSync(targetPath, file.data);
+      // Check if file.data is a path or Buffer
+      if (Buffer.isBuffer(file.data)) {
+        // If file.data is a Buffer, write it directly
+        fs.writeFileSync(targetPath, file.data);
+      } else if (typeof file.data === 'string') {
+        // If file.data is a path, read the file content from the path
+        const fileContent = fs.readFileSync(file.data);
+        fs.writeFileSync(targetPath, fileContent);
+      } else {
+        throw new Error('Invalid file data');
+      }
 
       const savedFilePath = `http://localhost:7001/uploads/${file.filename}`;
-
-      // 将文件路径存储到Mission的attachments字段中
       console.log('上传成功:', savedFilePath);
       await this.missionService.addAttachmentToMission(projectid, listid, missionid, savedFilePath);
 
@@ -79,11 +88,9 @@ export class FileController {
         };
       }
 
-      // 设置响应头以触发文件下载
       this.ctx.set('Content-Disposition', `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`);
       this.ctx.set('Content-Type', 'application/octet-stream');
 
-      // 读取文件并发送到客户端
       const stream = fs.createReadStream(filePath);
       this.ctx.body = stream;
 

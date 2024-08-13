@@ -5,7 +5,8 @@ services:
     ports:
       - "5173:5173" 
     environment:
-      - MONGO_URL=mongodb://mongo:27017/userDataBase # 在应用中连接 MongoDB
+      - MONGO_URL=mongodb://mongo:27017/userDataBase
+      - MONGO_URL=mongodb://mongo:27017/peojectDataBase # 在应用中连接 MongoDB
     depends_on:
       - mongo
   mongo:
