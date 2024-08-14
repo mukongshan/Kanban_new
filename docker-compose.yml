@@ -1,17 +1,38 @@
 version: '3'
 services:
-  web:
-    build: .
+  frontend:
+    build: 
+      context: ./frontend  # 前端项目目录
     ports:
-      - "5173:5173" 
+      - "80:80"  # 将容器的 80 端口映射到主机的 80 端口
+    networks:
+      - kanban-network
+
+  backend:
+    build: 
+      context: ./backend  # 后端项目目录
+    ports:
+      - "7001:7001"  # 将容器的 7001 端口映射到主机的 7001 端口
     environment:
-      - MONGO_URL=mongodb://mongo:27017/userDataBase
-      - MONGO_URL=mongodb://mongo:27017/peojectDataBase # 在应用中连接 MongoDB
+      MONGO_URL_USER: mongodb://mongo:27017/userDataBase
+      MONGO_URL_PROJECT: mongodb://mongo:27017/projectDataBase
+    networks:
+      - kanban-network
     depends_on:
       - mongo
+
   mongo:
-    image: mongo:6.0
-    volumes:
-      - ./data/db:/data/db
+    image: mongo:latest
+    container_name: kanban-mongo
     ports:
-      - "27017:27017" # 映射主机的 27017 端口到容器的 27017 端口
+      - "27017:27017"  # 将容器的 27017 端口映射到主机的 27017 端口
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - kanban-network
+
+networks:
+  kanban-network:
+
+volumes:
+  mongo_data:

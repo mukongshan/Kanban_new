@@ -3,14 +3,12 @@ import './style.css';
 import { Info, Mission, Comment } from '../server/interface';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import FileUpload from './fileUpload';
 
 
 const CommentForm: React.FC<Info> = ({ username, projectid, listid, mission }) => {
 
     const [comments, setComments] = useState<Comment[]>([]);
     const [modalType, setModalType] = useState('');
-    const [currentItem, setCurrentItem] = useState<Comment>();
     const [newItem, setNewItem] = useState('');
 
     function getTime(): string {
@@ -69,18 +67,12 @@ const CommentForm: React.FC<Info> = ({ username, projectid, listid, mission }) =
         setModalType('');
     }
 
-    //add
-    const handleAddModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        setModalType('add');
-    };
-
     const handleAddCommet = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (newItem.trim() && username && listid) {
             const now = getTime();
             console.log('Adding comment:', newItem);
-            const newComment: Comment = { id: uuidv4(), username: username, content: newItem, time: now };
+            const newComment: Comment = { id: uuidv4(), username: username, content: newItem, time: now } as Comment;
 
             try {
                 await axios.post(`http://localhost:7001/${username}/board/projects/${projectid}/lists/${listid}/missions/${mission?.id}/comments_4`, newComment);
@@ -93,64 +85,9 @@ const CommentForm: React.FC<Info> = ({ username, projectid, listid, mission }) =
         }
     };
 
-    //choose
-    const handleChooseComment = (comment: Comment) => {
-        setCurrentItem(comment);
-        console.log('Choosing Mission:', comment.id);
-        setModalType('chooseMission');
-
-        // navigate(`/${username}/home/project/${projectid}`);
-        // Perform project-specific actions here
-    };
-
-    //set
-    const handleSetModal = (comment: Comment) => {
-        setCurrentItem(comment);
-        setModalType('set');
-    };
-
-    //rename
-    const handleRenameModal = () => {
-        setModalType('rename');
-    };
-
-    const handleRenameComment = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (currentItem && newItem.trim()) {
-            try {
-                const response = await axios.put(`http://localhost:7001/${username}/board/projects/${projectid}/lists/${listid}/missions/${mission?.id}/comments_4/${currentItem.id}`, { name: newItem });
-                setComments(comments.map(comment => comment.id == currentItem.id ? response.data : comment));
-                console.log(response.data);
-                setNewItem('');
-                handleCloseModal();
-            } catch (error) {
-                console.error('Error renaming Mission:', error);
-            }
-        }
-    };
-
     //delete
     const handleDeleteModal = () => {
         setModalType('delete');
-    };
-
-    const handleDeleteComment = async () => {
-        if (currentItem) {
-            try {
-                console.log('Deleting comment:', currentItem);
-                await axios.delete(`http://localhost:7001/${username}/board/projects/${projectid}/lists/${listid}/missions/${mission?.id}/comments_4/${currentItem.id}`);
-                console.log('List deleted:', currentItem);
-                setComments(comments.filter(comment => comment.id != currentItem.id));
-                handleCloseModal();
-            } catch (error) {
-                console.error('Error deleting comment:', error);
-            }
-        }
-    };
-
-    //detail
-    const handleDetailModal = () => {
-        setModalType('detail');
     };
 
     return (
@@ -200,17 +137,6 @@ const CommentForm: React.FC<Info> = ({ username, projectid, listid, mission }) =
                     <button type='button' onClick={handleDeleteModal}>删除</button>
                 </div>
             )}
-
-            {modalType === 'delete' && (
-                <div className="modal-form">
-                    <h2>确认删除</h2>
-                    <p>您确定要删除该评论吗？</p>
-                    <br />
-                    <button type='button' onClick={handleCloseModal}>取消</button>
-                    <button type='button' onClick={handleDeleteComment}>确认</button>
-                </div>
-            )}
-
         </>
     );
 };
