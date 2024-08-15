@@ -14,11 +14,11 @@ export default {
   mongoose: {
     dataSource: {
       default: {
-        uri: 'mongodb://localhost:27017/userDataBase',
+        uri: 'mongodb://kanban-mongo:27017/userDataBase',
         entities: [User]
       },
       projectDB: {
-        uri: 'mongodb://localhost:27017/projectDataBase',
+        uri: 'mongodb://kanban-mongo:27017/projectDataBase',
         entities: [Project], // 配置另一数据库的实体
       },
     }

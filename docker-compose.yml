@@ -14,8 +14,8 @@ services:
     ports:
       - "7001:7001"  # 将容器的 7001 端口映射到主机的 7001 端口
     environment:
-      MONGO_URL_USER: mongodb://mongo:27017/userDataBase
-      MONGO_URL_PROJECT: mongodb://mongo:27017/projectDataBase
+      MONGO_URL_USER: mongodb://kanban-mongo:27017/userDataBase
+      MONGO_URL_PROJECT: mongodb://kanban-mongo:27017/projectDataBase
     networks:
       - kanban-network
     depends_on:
@@ -31,8 +31,23 @@ services:
     networks:
       - kanban-network
 
+  mongo-init:
+    image: mongo:latest
+    container_name: mongo-init
+    command: >
+      sh -c "
+      echo 'Waiting for MongoDB to be ready...';
+      sleep 10;
+      mongo < /docker-entrypoint-initdb.d/init-mongo.js
+      "
+    networks:
+      - kanban-network
+    depends_on:
+      - mongo
+
 networks:
   kanban-network:
+    driver: bridge
 
 volumes:
   mongo_data:
